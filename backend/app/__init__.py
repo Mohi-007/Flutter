@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from flask import Flask, send_from_directory
 from app.config import Config
-from app.extensions import db, jwt, bcrypt, cors, socketio
+from app.extensions import db, jwt, bcrypt, cors
 
 # Load .env file
 load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env'))
