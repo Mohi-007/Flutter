@@ -6,11 +6,18 @@ BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", "super-secret-dev-key-change-in-prod")
+    IS_VERCEL = "VERCEL" in os.environ
 
     # Database — Supabase PostgreSQL or local SQLite fallback
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'matebook.db')}"
-    )
+    # On Vercel, we MUST have a DATABASE_URL
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+    if not SQLALCHEMY_DATABASE_URI:
+        if IS_VERCEL:
+             # This will still likely fail if used, but at least it won't crash on startup trying to write to disk
+            SQLALCHEMY_DATABASE_URI = "postgresql://missing_url_check_vercel_env_vars"
+        else:
+            SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'matebook.db')}"
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
         "pool_pre_ping": True,
@@ -21,7 +28,12 @@ class Config:
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7)
     JWT_TOKEN_LOCATION = ["headers"]
 
-    UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
+    # On Vercel, the filesystem is read-only except for /tmp
+    if IS_VERCEL:
+        UPLOAD_FOLDER = "/tmp/uploads"
+    else:
+        UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
+        
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB
 
     # News API - live key
