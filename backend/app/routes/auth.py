@@ -62,12 +62,22 @@ def login():
             data = {}
     data = data or {}
 
-    email = data.get("email", "").strip().lower()
+    login_identifier = data.get("email", "").strip()
+    if not login_identifier:
+        login_identifier = data.get("username", "").strip()
+        
     password = data.get("password", "")
 
-    user = User.query.filter_by(email=email).first()
+    if not login_identifier or not password:
+        return jsonify({"error": "Please provide both your email/username and password."}), 400
+
+    # Check if user exists by email or username
+    user = User.query.filter(
+        (User.email == login_identifier.lower()) | (User.username == login_identifier)
+    ).first()
+
     if not user or not bcrypt.check_password_hash(user.password_hash, password):
-        return jsonify({"error": "Invalid email or password"}), 401
+        return jsonify({"error": "Invalid email/username or password. Please try again."}), 401
 
     user.is_online = True
     user.last_seen = datetime.now(timezone.utc)

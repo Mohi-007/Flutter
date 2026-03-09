@@ -17,7 +17,7 @@ class Config:
         "pool_recycle": 300,
     }
 
-    JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "jwt-secret-dev-key")
+    JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "super-secret-jwt-dev-key-change-in-prod-minimum-32")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7)
     JWT_TOKEN_LOCATION = ["headers"]
 
