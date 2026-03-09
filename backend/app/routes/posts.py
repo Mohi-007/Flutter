@@ -35,10 +35,10 @@ def create_post():
     # Handle media upload
     upload_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "uploads")
     if "media" in request.files:
-        filename = save_upload(request.files["media"], upload_folder)
-        if filename:
-            media_url = f"/uploads/{filename}"
-            ext = filename.rsplit(".", 1)[1].lower()
+        media_url = save_upload(request.files["media"], upload_folder)
+        if media_url:
+            filename = media_url.split("/")[-1]
+            ext = filename.rsplit(".", 1)[1].lower() if "." in filename else ""
             media_type = "video" if ext in ("mp4", "webm") else "image"
 
     if not content and not media_url:

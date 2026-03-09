@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { chatAPI, authAPI, friendsAPI, API_BASE_URL } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useSocket } from '../context/SocketContext';
-import { getInitials, timeAgo } from '../utils/helpers';
+import { getInitials, timeAgo, getImageUrl } from '../utils/helpers';
 
 export default function ChatPage() {
   const { user } = useAuth();
@@ -194,7 +194,7 @@ export default function ChatPage() {
                 >
                   <div className="avatar avatar-sm">
                     {u.profile_pic ? (
-                      <img src={`${API_BASE_URL}${u.profile_pic}`} alt="" />
+                      <img src={getImageUrl(u.profile_pic, API_BASE_URL)} alt="" />
                     ) : (
                       getInitials(u.username)
                     )}
@@ -216,7 +216,7 @@ export default function ChatPage() {
                 <div className="relative">
                   <div className="avatar avatar-sm">
                     {typeof avatarUser === 'string' ? avatarUser : avatarUser?.profile_pic ? (
-                      <img src={`${API_BASE_URL}${avatarUser.profile_pic}`} alt="" />
+                      <img src={getImageUrl(avatarUser.profile_pic, API_BASE_URL)} alt="" />
                     ) : (
                       getInitials(avatarUser?.username)
                     )}
@@ -255,7 +255,7 @@ export default function ChatPage() {
                     <div className="relative">
                       <div className="avatar avatar-sm">
                         {f.profile_pic ? (
-                          <img src={`${API_BASE_URL}${f.profile_pic}`} alt="" />
+                          <img src={getImageUrl(f.profile_pic, API_BASE_URL)} alt="" />
                         ) : (
                           getInitials(f.username)
                         )}
@@ -288,7 +288,7 @@ export default function ChatPage() {
                   {(() => {
                     const av = getConvAvatar(activeConv);
                     if (typeof av === 'string') return av;
-                    if (av?.profile_pic) return <img src={`${API_BASE_URL}${av.profile_pic}`} alt="" />;
+                    if (av?.profile_pic) return <img src={getImageUrl(av.profile_pic, API_BASE_URL)} alt="" />;
                     return getInitials(av?.username);
                   })()}
                 </div>
@@ -316,7 +316,7 @@ export default function ChatPage() {
                     {msg.content}
                     {msg.media_url && (
                       <img
-                        src={`${API_BASE_URL}${msg.media_url}`}
+                        src={getImageUrl(msg.media_url, API_BASE_URL)}
                         alt=""
                         style={{ maxWidth: '100%', marginTop: 4, border: '2px solid var(--black)', borderRadius: 'var(--radius)' }}
                       />

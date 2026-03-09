@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { postsAPI, API_BASE_URL } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { timeAgo, getInitials } from '../utils/helpers';
+import { timeAgo, getInitials, getImageUrl } from '../utils/helpers';
 
 export default function PostCard({ post, onUpdate }) {
   const { user } = useAuth();
@@ -81,7 +81,7 @@ export default function PostCard({ post, onUpdate }) {
         <Link to={`/profile/${post.author?.id}`}>
           <div className="avatar">
             {post.author?.profile_pic ? (
-              <img src={`${API_BASE_URL}${post.author.profile_pic}`} alt="" />
+              <img src={getImageUrl(post.author.profile_pic, API_BASE_URL)} alt="" />
             ) : (
               getInitials(post.author?.username)
             )}
@@ -112,10 +112,10 @@ export default function PostCard({ post, onUpdate }) {
       {post.media_url && (
         post.media_type === 'video' ? (
           <video controls className="post-media">
-            <source src={`${API_BASE_URL}${post.media_url}`} />
+            <source src={getImageUrl(post.media_url, API_BASE_URL)} />
           </video>
         ) : (
-          <img src={`${API_BASE_URL}${post.media_url}`} alt="" className="post-media" />
+          <img src={getImageUrl(post.media_url, API_BASE_URL)} alt="" className="post-media" />
         )
       )}
 
@@ -151,7 +151,7 @@ export default function PostCard({ post, onUpdate }) {
                 <div key={c.id} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
                   <div className="avatar avatar-sm">
                     {c.user?.profile_pic ? (
-                      <img src={`${API_BASE_URL}${c.user.profile_pic}`} alt="" />
+                      <img src={getImageUrl(c.user.profile_pic, API_BASE_URL)} alt="" />
                     ) : (
                       getInitials(c.user?.username)
                     )}

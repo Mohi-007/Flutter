@@ -21,3 +21,8 @@ export function formatCount(n) {
   if (n >= 1000) return `${(n / 1000).toFixed(1)}K`;
   return String(n);
 }
+export function getImageUrl(path, baseUrl) {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  return `${baseUrl}${path}`;
+}

@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getInitials } from '../utils/helpers';
+import { getInitials, getImageUrl } from '../utils/helpers';
 import { API_BASE_URL } from '../services/api';
 
 export default function Navbar() {
@@ -52,7 +52,7 @@ export default function Navbar() {
           <Link to={`/profile/${user.id}`} className={`nav-link ${isActive(`/profile/${user.id}`)}`}>
             <div className="avatar avatar-sm">
               {user.profile_pic ? (
-                <img src={`${API_BASE_URL}${user.profile_pic}`} alt="" />
+                <img src={getImageUrl(user.profile_pic, API_BASE_URL)} alt="" />
               ) : (
                 getInitials(user.username)
               )}

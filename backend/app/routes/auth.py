@@ -122,13 +122,9 @@ def update_profile():
     # Handle file uploads
     upload_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "uploads")
     if "profile_pic" in request.files:
-        filename = save_upload(request.files["profile_pic"], upload_folder)
-        if filename:
-            user.profile_pic = f"/uploads/{filename}"
+        user.profile_pic = save_upload(request.files["profile_pic"], upload_folder)
     if "cover_photo" in request.files:
-        filename = save_upload(request.files["cover_photo"], upload_folder)
-        if filename:
-            user.cover_photo = f"/uploads/{filename}"
+        user.cover_photo = save_upload(request.files["cover_photo"], upload_folder)
 
     db.session.commit()
     return jsonify({"user": user.to_dict(include_email=True)}), 200

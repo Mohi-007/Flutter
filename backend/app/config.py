@@ -31,6 +31,6 @@ class Config:
 
     # Supabase
     SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://vhhkpzrlhmoclieuhwma.supabase.co")
-    SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
+    SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "sb_publishable_gWOFPg_8w9PGK3HMcI0pDA_oNawl-Qv")
 
     CORS_ORIGINS = "*"

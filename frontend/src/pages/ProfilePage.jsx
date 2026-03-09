@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import PostCard from '../components/PostCard';
 import MoodPicker from '../components/MoodPicker';
-import { getInitials } from '../utils/helpers';
+import { getInitials, getImageUrl } from '../utils/helpers';
 
 export default function ProfilePage() {
   const { userId } = useParams();
@@ -130,7 +130,7 @@ export default function ProfilePage() {
       <div className="profile-header">
         <div className="relative">
           {profileUser.cover_photo ? (
-            <img src={`${API_BASE_URL}${profileUser.cover_photo}`} alt="" className="cover-photo" />
+            <img src={getImageUrl(profileUser.cover_photo, API_BASE_URL)} alt="" className="cover-photo" />
           ) : (
             <div className="cover-photo" style={{ background: `linear-gradient(135deg, ${accent}, var(--blue))` }} />
           )}
@@ -146,7 +146,7 @@ export default function ProfilePage() {
           <div className="relative">
             <div className="avatar avatar-xl">
               {profileUser.profile_pic ? (
-                <img src={`${API_BASE_URL}${profileUser.profile_pic}`} alt="" />
+                <img src={getImageUrl(profileUser.profile_pic, API_BASE_URL)} alt="" />
               ) : (
                 getInitials(profileUser.username)
               )}

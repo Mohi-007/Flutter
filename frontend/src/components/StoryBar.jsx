@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { storiesAPI, API_BASE_URL } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { getInitials } from '../utils/helpers';
+import { getInitials, getImageUrl } from '../utils/helpers';
 
 export default function StoryBar() {
   const { user } = useAuth();
@@ -90,7 +90,7 @@ export default function StoryBar() {
             <div className={`story-ring ${group.stories.every(s => s.is_viewed) ? 'viewed' : ''}`}>
               <div className="avatar avatar-lg">
                 {group.user.profile_pic ? (
-                  <img src={`${API_BASE_URL}${group.user.profile_pic}`} alt="" />
+                  <img src={getImageUrl(group.user.profile_pic, API_BASE_URL)} alt="" />
                 ) : (
                   getInitials(group.user.username)
                 )}
@@ -121,7 +121,7 @@ export default function StoryBar() {
             }}>
               <div className="avatar avatar-sm" style={{ borderColor: 'white' }}>
                 {viewingGroup.user.profile_pic ? (
-                  <img src={`${API_BASE_URL}${viewingGroup.user.profile_pic}`} alt="" />
+                  <img src={getImageUrl(viewingGroup.user.profile_pic, API_BASE_URL)} alt="" />
                 ) : (
                   getInitials(viewingGroup.user.username)
                 )}
@@ -159,11 +159,11 @@ export default function StoryBar() {
                   autoPlay
                   controls
                   style={{ maxWidth: '100%', maxHeight: '100%' }}
-                  src={`${API_BASE_URL}${viewingGroup.stories[currentIdx].media_url}`}
+                  src={getImageUrl(viewingGroup.stories[currentIdx].media_url, API_BASE_URL)}
                 />
               ) : (
                 <img
-                  src={`${API_BASE_URL}${viewingGroup.stories[currentIdx]?.media_url}`}
+                  src={getImageUrl(viewingGroup.stories[currentIdx]?.media_url, API_BASE_URL)}
                   alt=""
                   style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
                 />
