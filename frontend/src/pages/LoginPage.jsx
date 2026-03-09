@@ -25,7 +25,7 @@ export default function LoginPage() {
       navigate('/');
     } catch (err) {
       if (!err.response) {
-        setError('Network Error: Cannot reach the backend. Is the server running at http://localhost:5000?');
+        setError('Network Error: Cannot reach the server. Please check your internet connection or try again later.');
         console.error('Connection failed:', err);
       } else {
         setError(err.response?.data?.error || 'Login failed. Please check your credentials.');
