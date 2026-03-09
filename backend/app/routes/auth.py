@@ -49,6 +49,10 @@ def register():
     return jsonify({"token": token, "user": user.to_dict(include_email=True)}), 201
 
 
+@auth_bp.route("/health", methods=["GET"])
+def health_check():
+    return {"status": "ok", "message": "Matebook Backend is alive!"}, 200
+
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json(silent=True)
